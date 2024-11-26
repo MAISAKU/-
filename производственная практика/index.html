@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/tb.css">
+    <title>Document</title>
+</head>
+<body>
+    <main>
+        <nav>
+            <img class="icon" src="./img/Без имени.png">
+            <form class="poisk" id="poisk"> 
+                <input type="search" name="text" class="search" placeholder="🔍︎" style="border-radius: 15px; width: 100%;">
+            </form>
+        </nav>
+        <section>
+            <div class="contact_izbr" id="contact_izbr">
+                <div class="cont_iz del1">
+                    <img class="foto" src="" alt="">
+                    <div class="dan">
+                        <p id="name1" style="align-self: center;"><b>Name</b></p>
+                        <img class="img" onclick="de1()" id="del1" src="./img/krest.png" alt="">
+                        <p id="phone1" style="align-self: center;">Phone</p>
+                        <img class="img" src="./img/Group 4.svg" alt="">
+                    </div>
+                </div>
+            </div>
+            <div class="contact" id="contact_ne_iz">
+                <div class="cont_iz del3">
+                    <img class="foto" src="" alt="">
+                    <div class="dan">
+                        <p id="name3" style="align-self: center;"><b>Name</b></p>
+                        <img class="img" onclick="de3()" id="del3" src="./img/krest.png" alt="">
+                        <p id="phone3" style="align-self: center;">Phone</p>
+                        <img class="img" onclick="in_izb()" src="./img/serd.png" alt="">
+                    </div>
+                </div>
+            </div>
+        </section>
+        <button class="add" id="open_modal">Добавить</button>
+    </main>
+    <!--Модальное окно-->
+        <dialog id="modal">
+            <section class="modal">
+                <nav style="justify-content: flex-start;">
+                    <img class="icon" src="./img/Без имени.png" style="margin-left: 20px;">
+                    <p style="margin-left: 20px;">Add contact</p>
+                </nav>
+                <section class="contener">
+                    <form action="" method="post" id="create_con_form">
+                        <div class="flex_inp">
+                          <label class="txt_inp" for="name_con">Name</label>
+                          <input class="inp" type="text" name="name_con" id="name_con" required />
+                        </div>
+                        <div class="flex_inp">
+                          <label class="txt_inp" for="number_con">Number</label>
+                          <input class="inp" type="tel" name="phone" id="phone" placeholder="+7 (000) 000-00-00" required />
+                        </div>
+                        <div style="margin: 20px;">
+                            <input type="checkbox" name="fav_con" id="fav_con"/>
+                            <label for="fav_con">Favorites</label>
+                        </div>  
+                        <button class="create" id="create" type="submit">Создать</button>
+                    </form>
+                </section>
+            </section>
+        </dialog>
+        <script src="https://unpkg.com/imask">
+            var phoneInput = document.getElementById('#phone');
+            var phoneMask = IMask(phoneInput, {
+            mask: '+{7} (000) 000-00-00'
+        });
+        </script>
+        <script src="./js/index.js"></script>
+    <script>
+        //модальное окно
+        const open_modal = document.querySelector('#open_modal')
+        let modal = document.querySelector('#modal')
+        open_modal.addEventListener('click', () => {
+            modal.showModal()
+        })
+
+
+        //форма добавления контаката (не более 1 контакта)
+        document.getElementById('create').addEventListener('click', function(event) {
+            event.preventDefault();
+            
+            // Получаем значения из полей формы
+            const name = document.getElementById('name_con').value;
+            const phone = document.getElementById('phone').value;
+            const fav = document.getElementById('fav_con').checked;
+            console.log(fav)
+            if (fav) {
+                document.getElementById('contact_izbr').innerHTML += '<div class="cont_iz del2"><img class="foto" src="" alt=""><div class="dan"><p style="align-self: center;"><b>' + name + '</b></p><img class="img" onclick="de2()" id="del2" src="./img/krest.png" alt=""><p style="align-self: center;">' + phone + '</p><img class="img" src="./img/Group 4.svg" alt=""></div></div>';
+                modal.className += ' newClass';
+            }
+            if (fav == false) {
+                document.getElementById('contact_ne_iz').innerHTML += '<div class="cont_iz del4"><img class="foto" src="" alt=""><div class="dan"><p style="align-self: center;"><b>' + name + '</b></p><img class="img" onclick="de4()" id="del4" src="./img/krest.png" alt=""><p style="align-self: center;">' + phone + '</p><img class="img" src="./img/serd.png" alt=""></div></div>';
+                modal.className += ' newClass';
+            }
+        });
+
+
+        //удаление контакта
+        function de1() {
+            document.getElementById('del1').addEventListener('click', document.querySelector('.del1').className += ' newClass');
+        };
+        function de2() {
+            document.getElementById('del2').addEventListener('click', document.querySelector('.del2').className += ' newClass');
+        };
+        function de3() {
+            document.getElementById('del3').addEventListener('click', document.querySelector('.del3').className += ' newClass');
+        };
+        function de4() {
+            document.getElementById('del4').addEventListener('click', document.querySelector('.del4').className += ' newClass');
+        };
+
+
+        //добавление контакта в избранное
+        
+        function in_izb() {
+        let izbr_n3 = document.getElementById('name3').textContent;
+        let izbr_p3 = document.getElementById('phone3').textContent;
+        document.getElementById('contact_izbr').innerHTML += '<div class="cont_iz del2"><img class="foto" src="" alt=""><div class="dan"><p style="align-self: center;"><b>' + izbr_n3 + '</b></p><img class="img" onclick="de2()" id="del2" src="./img/krest.png" alt=""><p style="align-self: center;">' + izbr_p3 + '</p><img class="img" src="./img/Group 4.svg" alt=""></div></div>';
+        document.getElementById('del3').addEventListener('click', document.querySelector('.del3').className += ' newClass');
+        }
+
+    </script>
+    
+</body>
+</html>
